@@ -1,0 +1,44 @@
+<ng-container *ngIf="!resultData; else result">
+  <div *ngIf="!isLoading; else loading" class="w-full h-full flex justify-center items-center flex-col gap-4">
+    <ira-ui-input
+      title="Оптическая плотность"
+      placeholder="Оптическая плотность"
+      size="medium"
+      class="mb-2"
+      [formControl]="densityControl"
+    ></ira-ui-input>
+    <div class="flex gap-2 items-center" *ngIf="!densityFile; else density">
+      <h6>Оптические плотности и длины волн:</h6>
+      <button iraButton (click)="file.click()">Загрузить файл</button>
+      <input #file type="file" class="hidden" multiple (change)="onFileChange($event.target, 'density')" />
+    </div>
+    <ng-template #density>
+      <h6>{{ densityFile?.name }}</h6>
+    </ng-template>
+    <div class="flex gap-2 items-center" *ngIf="!timeFile; else time">
+      <h6>Время и длины волн:</h6>
+      <button iraButton (click)="file.click()">Загрузить файл</button>
+      <input #file type="file" class="hidden" multiple (change)="onFileChange($event.target, 'time')" />
+    </div>
+    <ng-template #time>
+      <h6>{{ timeFile?.name }}</h6>
+    </ng-template>
+    <button iraButton (click)="sendFiles()" [disabled]="!timeFile || !densityFile || densityControl.invalid">
+      Загрузить файлы
+    </button>
+  </div>
+  <ng-template #loading>
+    <div class="w-full h-full flex justify-center items-center">
+      <span>Файлы загружаются... Пожалуйста, подождите</span>
+    </div>
+  </ng-template>
+</ng-container>
+<ng-template #result>
+  <div class="w-full h-full flex justify-center items-center flex-col gap-4">
+    <div *ngFor="let resultItem of resultData | keyvalue" class="flex gap-2 flex-col">
+      <h6>Оптическая плотность: {{ resultItem.value.density }}</h6>
+      <h6>Концентрация: {{ resultItem.value.concetractions }}</h6>
+    </div>
+    <button (click)="resetValues()" iraButton>Загрузить снова</button>
+  </div>
+</ng-template>

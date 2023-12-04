@@ -1,0 +1,21 @@
+{
+  "name": "Get Concetractions",
+  "request": {
+    "url": "/upload",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "multipart/form-data"
+    }
+  },
+  "responses": {
+    "ok": {
+      "default": "true",
+      "data": {
+        "3PPA": {
+          "density": 1.505,
+          "concetractions": 10.0
+        }
+      }
+    }
+  }
+}
